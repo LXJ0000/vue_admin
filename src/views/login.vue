@@ -3,9 +3,9 @@ import {message} from 'ant-design-vue';
 import {reactive} from "vue";
 import {emailLoginApi} from "@/api/user";
 import jwt_decode from "jwt-decode";
-import {userStore} from "@/stores/store";
+import {useStore} from "@/stores/store";
 
-const store = userStore()
+const store = useStore()
 const data = reactive({
   user_name: "",
   password: "",
@@ -27,6 +27,8 @@ async function emailLogin() {
   }
   message.success(res.msg)
   const userinfo = jwt_decode(res.data); // 解析
+  userinfo.token = res.data
+  console.log(userinfo)
   // 维护store
   store.setUserInfo(userinfo)
 }

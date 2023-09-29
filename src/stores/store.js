@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {message} from "ant-design-vue";
 
-export const userStore = defineStore('gvb', {
+export const useStore = defineStore('gvb', {
     state: () => {
         return {
             UserInfo: {
@@ -11,6 +11,7 @@ export const userStore = defineStore('gvb', {
                 nick_name: "",
                 role: 0,
                 user_id: 0,
+                token:"",
             }
         }
     },

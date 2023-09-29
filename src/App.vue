@@ -1,7 +1,7 @@
 <script setup>
-import {userStore} from "@/stores/store"
+import {useStore} from "@/stores/store"
 
-const store = userStore()
+const store = useStore()
 
 // 加载userinfo
 store.loadUserInfo()
