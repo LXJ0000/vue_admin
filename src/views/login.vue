@@ -4,7 +4,10 @@ import {reactive} from "vue";
 import {emailLoginApi} from "@/api/user";
 import jwt_decode from "jwt-decode";
 import {useStore} from "@/stores/store";
+import {useRoute, useRouter} from "vue-router";
 
+const router = useRouter()
+const route = useRoute()
 const store = useStore()
 const data = reactive({
   user_name: "",
@@ -26,11 +29,31 @@ async function emailLogin() {
     return
   }
   message.success(res.msg)
-  const userinfo = jwt_decode(res.data); // 解析
+  const userinfo = jwt_decode(res.data); // 使用jwt_decode解析token
   userinfo.token = res.data
   console.log(userinfo)
   // 维护store
   store.setUserInfo(userinfo)
+
+//   页面跳转
+//   原页面
+//   home
+  const redirect_url = route.query.redirect_url
+  console.log(redirect_url)
+
+  if (redirect_url === undefined) {
+    setTimeout(() => {
+      router.push({
+        name: "home"
+      })
+    }, 1000)
+    return
+  }
+  setTimeout(() => {
+    router.push({
+      path: redirect_url,
+    })
+  }, 1000)
 }
 </script>
 
@@ -41,7 +64,7 @@ async function emailLogin() {
         <div class="title">用户登录</div>
         <div class="form">
           <div class="form_item">
-            <a-input v-model:value="data.user_name" placeholder="User Name">
+            <a-input v-model:value="data.user_name" placeholder="User Name" type="username">
               <template #prefix>
                 <i class="iconfont icon-username"></i>
               </template>

@@ -1,6 +1,6 @@
 import {Service} from "@/services";
-import {useStore} from "@/stores/store";
 
+// 代理
 export const emailLoginApi = (data) => {
     return Service.post("/api/email_login/", data)
 }

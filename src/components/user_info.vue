@@ -1,18 +1,29 @@
 <script setup>
-import { DownOutlined } from '@ant-design/icons-vue';
+import {DownOutlined} from '@ant-design/icons-vue';
 
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
+
 const props = defineProps({
   // 是否显示图像
-  isAvatar:{
-    type:Boolean,
-    default:false,
+  isAvatar: {
+    type: Boolean,
+    default: false,
   }
 })
+const route = useRoute()
 const router = useRouter()
 const menuClick = ({key}) => {
   if (key === "logout") {
     console.log("logout")
+    return
+  }
+  if (key === "login") {
+    router.push({
+      name: key,
+      query: {
+        redirect_url: route.path
+      }
+    })
     return
   }
   router.push(
@@ -37,7 +48,7 @@ const menuClick = ({key}) => {
 
         <a class="ant-dropdown-link" @click.prevent>
           Jannan
-          <DownOutlined />
+          <DownOutlined/>
         </a>
 
         <template #overlay>
@@ -50,6 +61,9 @@ const menuClick = ({key}) => {
             </a-menu-item>
             <a-menu-item key="article_list">
               文章列表
+            </a-menu-item>
+            <a-menu-item key="login">
+              用户登录
             </a-menu-item>
             <a-menu-item key="logout">
               注销退出
