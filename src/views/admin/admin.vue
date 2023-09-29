@@ -10,14 +10,14 @@
       <Aside></Aside>
 
       <a-layout>
-        <a-layout-header style="padding: 0; background-color: #FFFFFF">
+        <a-layout-header style="background-color: white; padding: 0; border-left: 1px solid #F5F5F5">
           <Header></Header>
         </a-layout-header>
 
-        <div class="tabs"></div>
+        <div class="tabs" style="border-left: 1px solid #F5F5F5"></div>
 
 
-        <a-layout-content style="margin: 0 16px">
+        <a-layout-content >
           <main>
             <div class="view">
               <router-view></router-view>
@@ -54,7 +54,7 @@ import {theme} from 'ant-design-vue';
 
 .tabs {
   height: 30px;
-  border-left: 1px solid var(--outbg);
+  //border-left: 1px solid var(--outbg);
   border-top: 1px solid var(--outbg);
 
   background-color: var(--inbg);

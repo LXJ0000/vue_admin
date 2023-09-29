@@ -28,7 +28,6 @@ const collapsed = ref<boolean>(false);
   width: 100%;
   height: 180px;
   flex-direction: column;
-  //border-right: 1px solid var(--border);
 
   .gvb_aside_header_logo {
     width: 60px;

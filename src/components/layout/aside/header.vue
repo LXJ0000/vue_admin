@@ -8,37 +8,31 @@ import {theme} from "ant-design-vue";
 
 <template>
 
-  <a-config-provider
-      :theme="{
-    algorithm: theme.defaultAlgorithm,
-    }"
-  >
-    <div class="header ">
-      <div class="header_left flex">
-        <a-breadcrumb>
-          <a-breadcrumb-item>首页</a-breadcrumb-item>
-          <a-breadcrumb-item><a href="">用户管理</a></a-breadcrumb-item>
-          <a-breadcrumb-item><a href="">用户列表</a></a-breadcrumb-item>
-          <a-breadcrumb-item>用户信息</a-breadcrumb-item>
-        </a-breadcrumb>
-      </div>
-      <div class="header_right">
-        <div class="icon_actions">
-          <i class="iconfont icon-home"></i>
-          <FullScreen></FullScreen>
-          <Theme></Theme>
-        </div>
-        <UserInfo :isAvatar="true"></UserInfo>
-      </div>
+  <div class="header ">
+    <div class="header_left flex">
+      <a-breadcrumb>
+        <a-breadcrumb-item>首页</a-breadcrumb-item>
+        <a-breadcrumb-item><a href="">用户管理</a></a-breadcrumb-item>
+        <a-breadcrumb-item><a href="">用户列表</a></a-breadcrumb-item>
+        <a-breadcrumb-item>用户信息</a-breadcrumb-item>
+      </a-breadcrumb>
     </div>
-  </a-config-provider>
+    <div class="header_right">
+      <div class="icon_actions">
+        <i class="iconfont icon-home"></i>
+        <FullScreen></FullScreen>
+        <Theme></Theme>
+      </div>
+      <UserInfo :isAvatar="true"></UserInfo>
+    </div>
+  </div>
 
 </template>
 
 <style scoped lang="scss">
 .header {
-  border-left: 1px solid var(--outbg);
-  height: 60px;
+
+  //height: 60px;
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
