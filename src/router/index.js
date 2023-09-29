@@ -9,6 +9,12 @@ const router = createRouter({
             component: () => import('@/views/admin/admin.vue'),
             children:[
                 {
+                    path: "",
+                    name: "admin_index",
+                    redirect:"/admin/home/"
+
+                },
+                {
                     path: "home/",
                     name: "home",
                     component: () => import('@/views/admin/home/home.vue'),
@@ -29,8 +35,12 @@ const router = createRouter({
             path: "/login/",
             name: "login",
             component: () => import('@/views/login.vue')
-
         },
+        {
+            path:"/test/",
+            name:"test",
+            component:()=> import('@/components/layout/aside/test.vue')
+        }
     ]
 })
 

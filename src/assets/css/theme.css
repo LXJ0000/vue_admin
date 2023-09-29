@@ -1,5 +1,5 @@
 :root {
     --sys: #316C72;
-    --bg: #FFFFFF;
-    --border:#EFEFF5;
+    --outbg: #F5F5F5;
+    --inbg: #FFFFFF;
 }

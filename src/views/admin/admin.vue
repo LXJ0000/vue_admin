@@ -1,89 +1,68 @@
-<script setup>
-import Aside from '@/components/layout/aside/aside.vue'
-import UserInfo from '@/components/user_info.vue'
-import FullScreen from '@/components/full_screen.vue'
-import Theme from '@/components/theme.vue'
-</script>
-
 <template>
-  <div class="gvb_admin">
-    <Aside></Aside>
-    <div class="main">
-      <div class="header ">
-        <div class="header_left flex">
-          <a-breadcrumb>
-            <a-breadcrumb-item>首页</a-breadcrumb-item>
-            <a-breadcrumb-item><a href="">用户管理</a></a-breadcrumb-item>
-            <a-breadcrumb-item><a href="">用户列表</a></a-breadcrumb-item>
-            <a-breadcrumb-item>用户信息</a-breadcrumb-item>
-          </a-breadcrumb>
-        </div>
-        <div class="header_right">
-          <div class="icon_actions">
-            <i class="iconfont icon-home"></i>
-            <FullScreen></FullScreen>
-            <Theme></Theme>
-          </div>
-          <UserInfo :isAvatar="true"></UserInfo>
-        </div>
-      </div>
+  <a-config-provider
+      :theme="{
+      algorithm: theme.defaultAlgorithm,
+    }"
+  >
 
-      <div class="tabs"></div>
-      <main>
-        <router-view></router-view>
-      </main>
-    </div>
+    <a-layout style="min-height: 100vh">
 
-  </div>
+      <Aside></Aside>
+
+      <a-layout>
+        <a-layout-header style="padding: 0; background-color: #FFFFFF">
+          <Header></Header>
+        </a-layout-header>
+
+        <div class="tabs"></div>
+
+
+        <a-layout-content style="margin: 0 16px">
+          <main>
+            <div class="view">
+              <router-view></router-view>
+            </div>
+          </main>
+        </a-layout-content>
+
+        <a-layout-footer style="text-align: center">
+          Ant Design ©2018 Created by Ant UED
+        </a-layout-footer>
+
+      </a-layout>
+    </a-layout>
+  </a-config-provider>
+
 </template>
+<script lang="ts" setup>
+import Header from '@/components/layout/aside/header.vue'
+import Aside from "@/components/layout/aside/aside.vue";
+import {theme} from 'ant-design-vue';
 
-<style lang='scss'>
-.gvb_admin {
-  width: 100%;
-  display: flex;
+</script>
+<style scoped lang="scss">
 
-  .main {
-    width: calc(100% - 256px);
 
-    .header {
-      height: 60px;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+//.site-layout .site-layout-background {
+//  background: #fff;
+//}
+//
+//[data-theme='dark'] .site-layout .site-layout-background {
+//  background: #141414;
+//}
 
-      .header_right {
-        display: flex;
-        align-items: center;
-      }
 
-      .icon_actions {
-        margin-left: 20px;
-        i {
-          margin-right: 20px;
-          cursor: pointer;
-          font-size: 16px;
-          color: black;
-        }
+.tabs {
+  height: 30px;
+  border-left: 1px solid var(--outbg);
+  border-top: 1px solid var(--outbg);
 
-        i:hover {
-          color: var(--sys);
-        }
-      }
-    }
+  background-color: var(--inbg);
+}
 
-    .tabs {
-      height: 30px;
-      border-top: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
+main {
+  padding: 20px;
 
-    main {
-      background-color: var(--bg);
-      height: calc(100vh - 90px);
-    }
 
-  }
 }
 </style>

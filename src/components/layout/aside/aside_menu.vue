@@ -41,6 +41,26 @@ const data = reactive({
         },
       ],
     },
+    {
+      id: 6,
+      icon: "icon-icon", // icon图标
+      title: "图片管理", // 菜单名称
+      name: "banner", // 路由名称
+      children: [
+        {
+          id: 7,
+          title: "图片列表", // 菜单名称
+          icon: "icon-ai-img-list",
+          name: "banner_list", // 路由名称
+        },
+        {
+          id: 8,
+          title: "图片上传", // 菜单名称
+          icon: "icon-tupianshangchuan",
+          name: "banner_upload", // 路由名称
+        },
+      ],
+    },
 
   ]
 })
@@ -67,8 +87,8 @@ const goto = (obj) =>{
         v-model:selectedKeys="selectedKeys"
         mode="inline"
         :inline-collapsed="false"
-        style="min-height: 77vh"
         @click="goto"
+        style="border: 0"
     >
       <template v-for="menu in data.menuList" :key="menu.name">
         <a-menu-item :key="menu.name" v-if="menu.children.length === 0">
