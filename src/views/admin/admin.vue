@@ -29,7 +29,9 @@ import Theme from '@/components/theme.vue'
       </div>
 
       <div class="tabs"></div>
-      <main></main>
+      <main>
+        <router-view></router-view>
+      </main>
     </div>
 
   </div>
