@@ -2,8 +2,10 @@
   <a-config-provider
       :theme="{
       algorithm: theme.defaultAlgorithm,
+
     }"
   >
+
 
     <a-layout style="min-height: 100vh">
 

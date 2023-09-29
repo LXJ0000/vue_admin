@@ -15,6 +15,8 @@ const data = reactive({
     {title: 'IP', dataIndex: 'ip', key: 'ip'},
     {title: '地址', dataIndex: 'addr', key: 'addr'},
     {title: '注册时间', dataIndex: 'created_at', key: 'created_at'},
+    {title: '操作', dataIndex: 'action', key: 'action'},
+
   ],
   dataSource: [
     {
@@ -76,7 +78,7 @@ const removeBatch = () => {
 
     <div class="container_search">
       <a-input-search
-          placeholder="input search text"
+          placeholder="搜索用户昵称"
           style="width: 200px"
       />
     </div>
@@ -87,9 +89,10 @@ const removeBatch = () => {
     </div>
 
     <div class="container_table">
+
       <div style="margin-bottom: 16px">
         <a-button type="primary" :disabled="!hasSelected" :loading="state.loading" @click="start">
-          Reload
+          重置
         </a-button>
         <span style="margin-left: 8px">
         <template v-if="hasSelected">
@@ -97,13 +100,14 @@ const removeBatch = () => {
         </template>
       </span>
       </div>
+
       <a-table
           :row-selection="{ selectedRowKeys: state.selectedRowKeys, onChange: onSelectChange }"
           :row-key="'id'"
           :dataSource="data.dataSource"
           :columns="data.columns"
       >
-
+        <!--修改表头样式-->
         <template #headerCell="{ column }">
           <template v-if="column.key === 'nick_name'">
         <span>
@@ -112,14 +116,21 @@ const removeBatch = () => {
         </span>
           </template>
         </template>
-
+        <!--修改表中样式-->
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'avatar'">
             <img class="table_avatar" :src="record.avatar" alt="">
+            <!--            代理！！！代理到目标地址-->
           </template>
 
           <template v-if="column.key === 'created_at'">
-            <div>{{formatDateTime(record.created_at)}}</div>
+            <div>{{ formatDateTime(record.created_at) }}</div>
+          </template>
+
+          <template v-if="column.key === 'action'">
+            <a-button type="primary" ghost disabled v-if="record.role === '管理员'">编辑</a-button>
+            <a-button type="primary" ghost v-else>编辑</a-button>
+
           </template>
         </template>
 
@@ -152,7 +163,8 @@ const removeBatch = () => {
 
   .container_table {
     padding: 10px;
-    .table_avatar{
+
+    .table_avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
