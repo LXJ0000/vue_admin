@@ -21,8 +21,10 @@ export default ({mode}) =>{
       proxy:{
         "/static":{
           target:baseUrl
-        }
-
+        },
+        "/api":{
+          target:baseUrl
+        },
       }
     }
 

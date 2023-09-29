@@ -1,5 +1,34 @@
 <script setup>
-import QqOutlined from '@ant-design/icons-vue'
+import {message} from 'ant-design-vue';
+import {reactive} from "vue";
+import {emailLoginApi} from "@/api/user";
+import jwt_decode from "jwt-decode";
+import {userStore} from "@/stores/store";
+
+const store = userStore()
+const data = reactive({
+  user_name: "",
+  password: "",
+})
+
+async function emailLogin() {
+  if (data.user_name.trim() === "") {
+    message.error("请输入用户名")
+    return
+  }
+  if (data.password.trim() === "") {
+    message.error("请输入用户密码")
+  }
+
+  let res = await emailLoginApi(data)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  const userinfo = jwt_decode(res.data); // 解析
+  store.setUserInfo(userinfo)
+}
 </script>
 
 <template>
@@ -9,7 +38,7 @@ import QqOutlined from '@ant-design/icons-vue'
         <div class="title">用户登录</div>
         <div class="form">
           <div class="form_item">
-            <a-input placeholder="User Name">
+            <a-input v-model:value="data.user_name" placeholder="User Name">
               <template #prefix>
                 <i class="iconfont icon-username"></i>
               </template>
@@ -17,7 +46,7 @@ import QqOutlined from '@ant-design/icons-vue'
           </div>
 
           <div class="form_item">
-            <a-input type="password" placeholder="Password">
+            <a-input @pressEnter="emailLogin" v-model:value="data.password" type="password" placeholder="Password">
               <template #prefix>
                 <i class="iconfont icon-password"></i>
               </template>
@@ -25,7 +54,7 @@ import QqOutlined from '@ant-design/icons-vue'
           </div>
 
           <div class="form_item">
-            <a-button type="primary">Login</a-button>
+            <a-button @click="emailLogin" type="primary">Login</a-button>
           </div>
 
         </div>
@@ -73,17 +102,19 @@ import QqOutlined from '@ant-design/icons-vue'
 
         .form_item {
           margin-bottom: 10px;
+
           .ant-btn {
             width: 100%;
             background-color: var(--sys);
           }
         }
       }
-      .other{
+
+      .other {
         font-size: 4px;
         color: var(--sys);
 
-        &::before{
+        &::before {
           width: 30%;
           height: 1px;
           background-color: var(--sys);
@@ -92,7 +123,7 @@ import QqOutlined from '@ant-design/icons-vue'
           margin-right: 5px;
         }
 
-        &::after{
+        &::after {
           width: 30%;
           height: 1px;
           background-color: var(--sys);
@@ -101,15 +132,18 @@ import QqOutlined from '@ant-design/icons-vue'
           margin-inline: 5px;
         }
       }
-      .icons{
+
+      .icons {
         margin-top: 10px;
-        .icon{
+
+        .icon {
           width: 40px;
           height: 40px;
           cursor: pointer;
           margin-right: 10px;
         }
-        &:last-child{
+
+        &:last-child {
           margin-right: 0;
         }
 

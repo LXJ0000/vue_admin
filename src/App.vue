@@ -1,11 +1,14 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import {userStore} from "@/stores/store"
+
+const store = userStore()
+store.loadUserInfo()
 </script>
 
 <template>
 
 
-  <RouterView />
+  <router-view />
 </template>
 
 <style>
