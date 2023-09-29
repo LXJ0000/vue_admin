@@ -2,6 +2,8 @@
 import {userStore} from "@/stores/store"
 
 const store = userStore()
+
+// 加载userinfo
 store.loadUserInfo()
 </script>
 

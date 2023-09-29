@@ -27,6 +27,7 @@ async function emailLogin() {
   }
   message.success(res.msg)
   const userinfo = jwt_decode(res.data); // 解析
+  // 维护store
   store.setUserInfo(userinfo)
 }
 </script>
