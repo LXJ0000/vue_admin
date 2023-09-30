@@ -18,13 +18,11 @@
 
       <a-layout
 
-          :style="{ marginLeft: '200px' }"
       >
         <Header></Header>
 
 
         <a-layout-content
-            :style="{marginTop: '60px' }"
         >
           <div
               class="tabs"

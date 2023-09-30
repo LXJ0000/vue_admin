@@ -4,8 +4,8 @@
         collapsible
         theme="light"
 
-        :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }"
     >
+<!--      :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }"-->
 
       <div class="gvb_aside_header flex">
         <div>

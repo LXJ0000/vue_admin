@@ -7,9 +7,8 @@ import {theme} from "ant-design-vue";
 </script>
 
 <template>
-<!--  overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0-->
   <a-layout-header
-      style="padding: 0;overflow: auto;position: fixed;right: 0;top: 0;left: 200px;height: 65px;z-index: 1000"
+      style="padding: 0"
   >
     <div class="header ">
       <div class="header_left flex">

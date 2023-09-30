@@ -67,7 +67,7 @@ const removeBatch = () => {
 
 const page = reactive({
   page: 1,
-  limit: 5
+  limit: 4
 })
 
 async function GetData() {
@@ -130,6 +130,10 @@ const validatePass2 = async (_rule, value) => {
     return Promise.resolve();
   }
 };
+
+const pageChange = (_page, _limit) => {
+  GetData()
+}
 </script>
 
 <template>
@@ -205,18 +209,18 @@ const validatePass2 = async (_rule, value) => {
       />
     </div>
 
-    <div class="container_action">
-      <a-button type="primary" @click="data.modalVisible = true">添加</a-button>
-
-      <a-button type="primary" @click="removeBatch" danger v-if="state.selectedRowKeys.length">批量删除</a-button>
-    </div>
-
     <div class="container_table">
 
       <div style="margin-bottom: 16px">
-        <a-button type="primary" :disabled="!hasSelected" :loading="state.loading" @click="start">
-          重置
-        </a-button>
+        <div class="container_table_action">
+          <a-button type="primary" @click="data.modalVisible = true">添加</a-button>
+          <a-button type="primary" :disabled="!hasSelected" :loading="state.loading" @click="start">
+            重置
+          </a-button>
+          <a-button type="primary" @click="removeBatch" danger v-if="state.selectedRowKeys.length">批量删除</a-button>
+
+        </div>
+
         <span style="margin-left: 8px">
         <template v-if="hasSelected">
           {{ `Selected ${state.selectedRowKeys.length} items` }}
@@ -230,6 +234,9 @@ const validatePass2 = async (_rule, value) => {
 
           :dataSource="data.dataSource"
           :columns="data.columns"
+
+          :pagination="false"
+
       >
         <!--修改表头样式-->
         <template #headerCell="{ column }">
@@ -254,12 +261,21 @@ const validatePass2 = async (_rule, value) => {
           <template v-if="column.key === 'action'">
             <a-button type="primary" ghost disabled v-if="record.role === '管理员'">编辑</a-button>
             <a-button type="primary" ghost v-else>编辑</a-button>
-
           </template>
         </template>
 
-
       </a-table>
+      <div class="container_table_page flex">
+        <a-pagination
+            v-model:current="page.page"
+            v-model:page-size="page.limit"
+            :total="data.cnt"
+            show-less-items
+
+            @change="pageChange"
+        />
+      </div>
+
     </div>
 
 
@@ -277,16 +293,17 @@ const validatePass2 = async (_rule, value) => {
     border-bottom: 1px solid var(--outbg);
   }
 
-  .container_action {
-    padding: 10px;
-
-    .ant-btn {
-      margin-right: 10px;
-    }
-  }
 
   .container_table {
     padding: 10px;
+
+    .container_table_action {
+      padding: 10px;
+
+      .ant-btn {
+        margin-right: 10px;
+      }
+    }
 
     .table_avatar {
       width: 40px;
@@ -294,13 +311,15 @@ const validatePass2 = async (_rule, value) => {
       border-radius: 50%;
     }
 
+    .container_table_page {
+      padding: 10px;
+      margin-bottom: 0;
+
+    }
 
   }
 
-  .container_page {
-    padding: 10px;
 
-  }
 }
 
 </style>
