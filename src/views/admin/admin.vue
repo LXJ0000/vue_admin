@@ -2,7 +2,12 @@
   <a-config-provider
       :theme="{
       algorithm: theme.defaultAlgorithm,
+      components:{
+        Layout:{
+          colorBgHeader:'#ffffff',
 
+        }
+      }
     }"
   >
 
@@ -11,15 +16,21 @@
 
       <Aside></Aside>
 
-      <a-layout>
-        <a-layout-header style="background-color: white; padding: 0; border-left: 1px solid #F5F5F5">
-          <Header></Header>
-        </a-layout-header>
+      <a-layout
 
-        <div class="tabs" style="border-left: 1px solid #F5F5F5"></div>
+          :style="{ marginLeft: '200px' }"
+      >
+        <Header></Header>
 
 
-        <a-layout-content >
+        <a-layout-content
+            :style="{marginTop: '60px' }"
+        >
+          <div
+              class="tabs"
+              style="border-radius: 20px;"
+          ></div>
+
           <main>
             <div class="view">
               <router-view></router-view>
@@ -56,15 +67,11 @@ import {theme} from 'ant-design-vue';
 
 .tabs {
   height: 30px;
-  //border-left: 1px solid var(--outbg);
-  border-top: 1px solid var(--outbg);
 
   background-color: var(--inbg);
 }
 
 main {
   padding: 20px;
-
-
 }
 </style>

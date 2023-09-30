@@ -7,25 +7,31 @@ import {theme} from "ant-design-vue";
 </script>
 
 <template>
-
-  <div class="header ">
-    <div class="header_left flex">
-      <a-breadcrumb>
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
-        <a-breadcrumb-item><a href="">用户管理</a></a-breadcrumb-item>
-        <a-breadcrumb-item><a href="">用户列表</a></a-breadcrumb-item>
-        <a-breadcrumb-item>用户信息</a-breadcrumb-item>
-      </a-breadcrumb>
-    </div>
-    <div class="header_right">
-      <div class="icon_actions">
-        <i class="iconfont icon-home"></i>
-        <FullScreen></FullScreen>
-        <Theme></Theme>
+<!--  overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0-->
+  <a-layout-header
+      style="padding: 0;overflow: auto;position: fixed;right: 0;top: 0;left: 200px;height: 65px;z-index: 1000"
+  >
+    <div class="header ">
+      <div class="header_left flex">
+        <a-breadcrumb>
+          <a-breadcrumb-item>首页</a-breadcrumb-item>
+          <a-breadcrumb-item><a href="">用户管理</a></a-breadcrumb-item>
+          <a-breadcrumb-item><a href="">用户列表</a></a-breadcrumb-item>
+          <a-breadcrumb-item>用户信息</a-breadcrumb-item>
+        </a-breadcrumb>
       </div>
-      <UserInfo :isAvatar="true"></UserInfo>
+      <div class="header_right">
+        <div class="icon_actions">
+          <i class="iconfont icon-home"></i>
+          <FullScreen></FullScreen>
+          <Theme></Theme>
+        </div>
+        <UserInfo :isAvatar="true"></UserInfo>
+      </div>
     </div>
-  </div>
+  </a-layout-header>
+
+
 
 </template>
 

@@ -31,7 +31,6 @@ async function emailLogin() {
   message.success(res.msg)
   const userinfo = jwt_decode(res.data); // 使用jwt_decode解析token
   userinfo.token = res.data
-  console.log(userinfo)
   // 维护store
   store.setUserInfo(userinfo)
 
@@ -39,7 +38,6 @@ async function emailLogin() {
 //   原页面
 //   home
   const redirect_url = route.query.redirect_url
-  console.log(redirect_url)
 
   if (redirect_url === undefined) {
     setTimeout(() => {
@@ -72,15 +70,15 @@ async function emailLogin() {
           </div>
 
           <div class="form_item">
-            <a-input @pressEnter="emailLogin" v-model:value="data.password" type="password" placeholder="Password">
+            <a-input-password @pressEnter="emailLogin" v-model:value="data.password" type="password" placeholder="Password">
               <template #prefix>
                 <i class="iconfont icon-password"></i>
               </template>
-            </a-input>
+            </a-input-password>
           </div>
 
           <div class="form_item">
-            <a-button @click="emailLogin" type="primary">Login</a-button>
+            <a-button @click="emailLogin" html-type="submit" type="primary">Login</a-button>
           </div>
 
         </div>

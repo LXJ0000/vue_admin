@@ -1,5 +1,11 @@
 <template>
-    <a-layout-sider v-model:collapsed="collapsed" collapsible theme="light">
+    <a-layout-sider
+        v-model:collapsed="collapsed"
+        collapsible
+        theme="light"
+
+        :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }"
+    >
 
       <div class="gvb_aside_header flex">
         <div>
