@@ -2,7 +2,7 @@
 import {computed, reactive, ref} from 'vue';
 import {SmileOutlined} from '@ant-design/icons-vue';
 import {formatDateTime} from "@/utils/time";
-import {userCreateApi, userListApi} from "@/api/user";
+import {userCreateApi, userListApi, UserRemoveBatchApi, UserUpdateNickNameAndRoleApi} from "@/api/user";
 import {message} from "ant-design-vue";
 
 
@@ -22,7 +22,9 @@ const data = reactive({
   ],
   dataSource: [],
   cnt: 0,
-  modalVisible: false,
+  modalCreateVisible: false,
+  modalUpdateVisible: false,
+
 })
 
 const _formState = {
@@ -61,13 +63,20 @@ const onSelectChange = selectedRowKeys => {
   state.selectedRowKeys = selectedRowKeys;
 };
 
-const removeBatch = () => {
-
+const removeBatch = async () => {
+  let res = await UserRemoveBatchApi(state.selectedRowKeys)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  GetData()
+  state.selectedRowKeys = []
 }
 
 const page = reactive({
   page: 1,
-  limit: 4
+  limit: 5
 })
 
 async function GetData() {
@@ -98,7 +107,6 @@ async function handleOk() {
   try {
     // let valid = await formRef.value.validate()
     // // 登录请求
-    // console.log(valid)
     let valid = await formRef.value.validate()
     let res = await userCreateApi(valid)
     if (res.code) {
@@ -106,7 +114,7 @@ async function handleOk() {
     } else {
       message.success(res.msg)
     }
-    data.modalVisible = false
+    data.modalCreateVisible = false
     Object.assign(formState, _formState)
     await GetData()
 
@@ -134,12 +142,41 @@ const validatePass2 = async (_rule, value) => {
 const pageChange = (_page, _limit) => {
   GetData()
 }
+
+const updateUserInfoModal = record => {
+  data.modalUpdateVisible = true
+  formUpdateState.user_id = record.id
+  formUpdateState.nick_name = record.nick_name
+  formUpdateState.role = record.role_id
+
+}
+const UpdateUserInfo = async () => {
+  let res = await UserUpdateNickNameAndRoleApi(formUpdateState)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  await GetData()
+  data.modalUpdateVisible = false
+}
+
+const addUserModal = () => {
+  data.modalCreateVisible = true
+}
+
+const formUpdateState = reactive({
+  nick_name: "",
+  role: "",
+  user_id: ""
+})
+
 </script>
 
 <template>
   <div class="container">
     <a-modal
-        v-model:open="data.modalVisible"
+        v-model:open="data.modalCreateVisible"
         title="添加用户"
         @ok="handleOk"
     >
@@ -202,6 +239,48 @@ const pageChange = (_page, _limit) => {
 
       </a-form>
     </a-modal>
+
+    <a-modal
+        v-model:open="data.modalUpdateVisible"
+        title="编辑用户"
+        @ok="UpdateUserInfo"
+    >
+      <a-form
+          :model="formUpdateState"
+          name="basic"
+          ref="formRef"
+          :label-col="{span:4}"
+          :wrapper-col="{span:20}"
+          autocomplete="off"
+      >
+
+
+        <a-form-item
+            has-feedback
+            label="昵称"
+            name="nick_name"
+            :rules="[{ required: true, message: '请输入昵称!' , trigger: 'change'}]"
+        >
+          <a-input v-model:value="formUpdateState.nick_name" placeholder="昵称"/>
+        </a-form-item>
+
+
+        <a-form-item
+            label="权限"
+            name="role"
+            :rules="[{ required: true, message: '请选择权限!' }]"
+        >
+          <a-select
+              placeholder="权限"
+              v-model:value="formUpdateState.role"
+              style="width: 200px"
+              :options="options"
+          ></a-select>
+        </a-form-item>
+
+      </a-form>
+    </a-modal>
+
     <div class="container_search">
       <a-input-search
           placeholder="搜索用户昵称"
@@ -211,13 +290,21 @@ const pageChange = (_page, _limit) => {
 
     <div class="container_table">
 
-      <div style="margin-bottom: 16px">
+      <div>
         <div class="container_table_action">
-          <a-button type="primary" @click="data.modalVisible = true">添加</a-button>
           <a-button type="primary" :disabled="!hasSelected" :loading="state.loading" @click="start">
             重置
           </a-button>
-          <a-button type="primary" @click="removeBatch" danger v-if="state.selectedRowKeys.length">批量删除</a-button>
+          <a-button type="primary" @click="addUserModal">添加</a-button>
+
+          <a-popconfirm
+              title="是否确定删除"
+              ok-text="删除"
+              cancel-text="取消"
+              @confirm="removeBatch"
+          >
+            <a-button type="primary" danger v-if="state.selectedRowKeys.length">批量删除</a-button>
+          </a-popconfirm>
 
         </div>
 
@@ -259,8 +346,11 @@ const pageChange = (_page, _limit) => {
           </template>
 
           <template v-if="column.key === 'action'">
-            <a-button type="primary" ghost disabled v-if="record.role === '管理员'">编辑</a-button>
-            <a-button type="primary" ghost v-else>编辑</a-button>
+            <a-button @click="updateUserInfoModal(record)" type="primary" ghost disabled
+                      v-if="record.role === '管理员'">
+              编辑
+            </a-button>
+            <a-button @click="updateUserInfoModal(record)" type="primary" ghost v-else>编辑</a-button>
           </template>
         </template>
 
@@ -298,7 +388,6 @@ const pageChange = (_page, _limit) => {
     padding: 10px;
 
     .container_table_action {
-      padding: 10px;
 
       .ant-btn {
         margin-right: 10px;

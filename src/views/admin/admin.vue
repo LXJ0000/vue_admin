@@ -23,6 +23,7 @@
 
 
         <a-layout-content
+            style="padding-top: 8px"
         >
           <div
               class="tabs"
@@ -70,6 +71,6 @@ import {theme} from 'ant-design-vue';
 }
 
 main {
-  padding: 20px;
+  padding: 16px 20px 10px 20px;
 }
 </style>
