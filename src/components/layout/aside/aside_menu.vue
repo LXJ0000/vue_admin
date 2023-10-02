@@ -61,7 +61,13 @@ const data = reactive({
         },
       ],
     },
-
+    {
+      id: 9,
+      icon: "", // icon图标
+      title: "测试", // 菜单名称
+      name: "test", // 路由名称
+      children: [],
+    },
   ]
 })
 
