@@ -6,14 +6,14 @@ import {message} from "ant-design-vue";
 
 const data = reactive({
 
-  baseUrl: "/api/user",
+
   options: [
     {value: 1, label: "管理员"},
     {value: 2, label: "普通用户"},
     {value: 3, label: "游客"},
   ],
   modalCreateVisible: false,
-
+  modalUpdateVisible: false,
   columns: [
     {title: 'ID', dataIndex: 'id', key: 'id'},
     {title: '昵称', dataIndex: 'nick_name', key: 'nick_name'},
@@ -27,8 +27,6 @@ const data = reactive({
     {title: '操作', dataIndex: 'action', key: 'action'},
 
   ],
-  searchBtnName: "搜索用户昵称",
-  roleBtnName: "权限",
   formState: {
     nick_name: "",
     user_name: "",
@@ -74,11 +72,13 @@ const handleOk = async () => {
     } else {
       message.success(res.msg)
     }
-    data.modalCreateVisible = false
     Object.assign(data.formState, data._formState)
     await MyTable_.value.ExportList(true)
 
   } catch (e) {
+  } finally {
+    data.modalCreateVisible = false
+
   }
 }
 const validatePass = async (_rule, value) => {
@@ -227,10 +227,10 @@ const onFilter = () => {
   </a-modal>
 
   <MyTable
-      :baseUrl="data.baseUrl"
+      baseUrl="/api/user"
       :columns="data.columns"
       :options="data.options"
-      :searchBtnName="data.searchBtnName"
+      searchBtnName="搜索用户昵称"
       @removeBatch="removeBatch"
       is-edit
       is-add
@@ -257,7 +257,7 @@ const onFilter = () => {
           v-model:value="data.filter"
           style="width: 200px; padding-left: 10px"
           :options="data.options"
-          :placeholder="data.roleBtnName"
+          placeholder="权限"
           allowClear
       ></a-select>
     </template>
