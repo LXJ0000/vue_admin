@@ -9,7 +9,7 @@
 
       <div class="gvb_aside_header flex">
         <div>
-          <img class="gvb_aside_header_logo flex" src="http://s0yvn46ks.hn-bkt.clouddn.com/gvb/1695639074__6.jpg"
+          <img class="gvb_aside_header_logo flex" src="/static/avatar/6.jpg"
                alt="">
         </div>
         <div v-if="!collapsed" class="gvb_aside_header_title">

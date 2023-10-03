@@ -11,8 +11,9 @@ export const useStore = defineStore('gvb', {
                 nick_name: "",
                 role: 0,
                 user_id: 0,
-                token:"",
-            }
+                token: "",
+            },
+            tabList: []
         }
     },
     actions: {
@@ -41,6 +42,33 @@ export const useStore = defineStore('gvb', {
                 return
             }
             this.setUserInfo(userinfo)
+        },
+        addTab(tab) {
+            if (this.tabList.findIndex((item) => item.name === tab.name) === -1) {
+                this.tabList.push({
+                    name: tab.name,
+                    title: tab.title,
+                })
+            }
+        },
+        saveTabs() {
+            localStorage.setItem("tabList", JSON.stringify(this.tabList))
+        },
+        loadTabs() {
+            let tabs = localStorage.getItem("tabList")
+            if (tabs === null) {
+                this.tabList = [{title: "首页", name: "home",}]
+                return
+            }
+            this.tabList = JSON.parse(tabs)
+        },
+        removeTab(tab) {
+            let removeIndex = this.tabList.findIndex((item) => item.name === tab.name)
+            this.tabList.splice(removeIndex, 1)
+            return removeIndex
+        },
+        removeAllTab() {
+            this.tabList = [{title: "首页", name: "home",}]
         }
     }
 })

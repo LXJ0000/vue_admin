@@ -40,7 +40,7 @@ const menuClick = ({key}) => {
   <div class="gvb_user_info flex">
 
     <div v-if="props.isAvatar" class="avatar">
-      <img src="http://s0yvn46ks.hn-bkt.clouddn.com/gvb/1695639074__6.jpg" alt="">
+      <img src="/static/avatar/6.jpg" alt="">
     </div>
 
     <div class="drop_menu">

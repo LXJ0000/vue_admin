@@ -5,8 +5,6 @@ import {userCreateApi, UserRemoveBatchApi, UserUpdateNickNameAndRoleApi} from "@
 import {message} from "ant-design-vue";
 
 const data = reactive({
-
-
   options: [
     {value: 1, label: "管理员"},
     {value: 2, label: "普通用户"},
@@ -73,7 +71,7 @@ const handleOk = async () => {
       message.success(res.msg)
     }
     Object.assign(data.formState, data._formState)
-    await MyTable_.value.ExportList(true)
+    await MyTable_.value.ExportList()
 
   } catch (e) {
   } finally {
@@ -110,16 +108,17 @@ const UpdateUserInfo = async () => {
     return
   }
   message.success(res.msg)
-  await MyTable_.value.ExportList(false)
+  await MyTable_.value.ExportList()
   data.modalUpdateVisible = false
 }
 
 const onFilter = () => {
-  MyTable_.value.ExportList(true, {role: data.filter})
+  MyTable_.value.ExportList( {role: data.filter})
 }
 </script>
 
 <template>
+<div>
 
   <a-modal
       v-model:open="data.modalCreateVisible"
@@ -262,5 +261,13 @@ const onFilter = () => {
       ></a-select>
     </template>
   </MyTable>
+</div>
 </template>
 
+<style lang="scss" scoped>
+.table_avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+</style>

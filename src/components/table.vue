@@ -73,7 +73,6 @@ const refresh = () => {
 const removeBatch = async () => {
   emits("removeBatch", state.selectedRowKeys)
   state.selectedRowKeys = []
-  await GetData(data.page)
 }
 
 const pageChange = (_page, _limit) => {
@@ -98,12 +97,13 @@ const onSelectChange = selectedRowKeys => {
   state.selectedRowKeys = selectedRowKeys;
 };
 //---------------------------------------------------------------------
-const ExportList = (isRefresh, params) => {
+const ExportList = (params) => {
+
+  if (params === undefined) {
+    params = {}
+  }
   data.page.key = data.page.key.trim()
 
-  if (isRefresh) {
-    data.page.page = 1
-  }
   Object.assign(data.page, params)
   GetData(data.page)
 }
@@ -221,11 +221,6 @@ defineExpose({
 
     }
 
-    .table_avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
 
     .container_table_page {
       padding: 10px;

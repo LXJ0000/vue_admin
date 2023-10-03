@@ -1,7 +1,9 @@
 <script setup>
 import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
+import {useStore} from "@/stores/store";
 
+const store = useStore()
 const router = useRouter()
 const selectedKeys = ref(['1'])
 const data = reactive({
@@ -51,18 +53,13 @@ const data = reactive({
           id: 7,
           title: "图片列表", // 菜单名称
           icon: "icon-ai-img-list",
-          name: "banner_list", // 路由名称
+          name: "image_list", // 路由名称
         },
-        {
-          id: 8,
-          title: "图片上传", // 菜单名称
-          icon: "icon-tupianshangchuan",
-          name: "banner_upload", // 路由名称
-        },
+
       ],
     },
     {
-      id: 9,
+      id: 8,
       icon: "", // icon图标
       title: "测试", // 菜单名称
       name: "test", // 路由名称
@@ -71,9 +68,14 @@ const data = reactive({
   ]
 })
 
-const goto = (obj) =>{
+const goto = ({item, key, keyPath}) => {
+  // 加入tab
+  store.addTab({
+    name: key.name,
+    title: key.title,
+  })
   router.push({
-    name:obj.key,
+    name: key.name,
   })
 }
 
@@ -96,19 +98,19 @@ const goto = (obj) =>{
         @click="goto"
         style="border: 0"
     >
-      <template v-for="menu in data.menuList" :key="menu.name">
-        <a-menu-item :key="menu.name" v-if="menu.children.length === 0">
+      <template v-for="menu in data.menuList" :key="menu">
+        <a-menu-item :key="menu" v-if="menu.children.length === 0">
           <template #icon>
             <i :class="'iconfont '+menu.icon"></i>
           </template>
           <span>{{ menu.title }}</span>
         </a-menu-item>
-        <a-sub-menu :key="menu.name" v-else>
+        <a-sub-menu :key="menu.id" v-else>
           <template #icon>
             <i :class="'iconfont '+menu.icon"></i>
           </template>
           <template #title>{{ menu.title }}</template>
-          <a-menu-item v-for="sub_menu in menu.children" :key="sub_menu.name">
+          <a-menu-item v-for="sub_menu in menu.children" :key="sub_menu">
             <template #icon>
               <i :class="'iconfont '+sub_menu.icon"></i>
             </template>
